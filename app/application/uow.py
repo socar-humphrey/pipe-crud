@@ -27,7 +27,8 @@ class SqliteUnitOfWork(UnitOfWork):
 
     def __enter__(self):
         self.session = self.session_factory()
-        self.repo = repository.SqliteRepository(self.session)
+        self.user_repo = repository.SqliteUserRepository(self.session)
+        self.post_repo = repository.SqlitePostRepository(self.session)
         return super().__enter__()
 
     def __exit__(self, *args):
