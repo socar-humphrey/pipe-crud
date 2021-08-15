@@ -1,13 +1,18 @@
+from app.infrastructure.dependencies.container import ApplicationBaseContainer
 from fastapi import APIRouter, Depends
 
 from app.application.uow import UnitOfWork
 from app.application.usecases import get_user_by_id
+from dependency_injector.wiring import Provide, inject
 
 api_router = APIRouter(prefix="/api/v1")
 
 
 @api_router.get("/users/{user_id}")
-def get_user(user_id: str, uow: UnitOfWork = Depends()):
+@inject
+def get_user(
+    user_id: str, uow: UnitOfWork = Depends(Provide[ApplicationBaseContainer.uow])
+):
     return get_user_by_id(user_id=user_id, uow=uow)
 
 

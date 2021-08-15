@@ -35,7 +35,7 @@ class SqliteUnitOfWork(UnitOfWork):
         super().__exit__(*args)
         self.session.close()
 
-    def _commit(self):
+    def commit(self):
         self.session.commit()
 
     def rollback(self):
