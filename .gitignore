@@ -2,5 +2,9 @@
 .idea/
 .DS_Store
 .vscode/
+<<<<<<< HEAD
 __pycache__/
 *.db
+=======
+__pycache__/
+>>>>>>> feat(domain): 도메인 모델을 declarative base 모델로 변경한다
