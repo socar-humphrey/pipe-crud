@@ -20,6 +20,10 @@ class UnitOfWork(ABC):
     def rollback(self):
         pass
 
+    @abstractmethod
+    def refresh(self, entity: ...):
+        pass
+
 
 class SqliteUnitOfWork(UnitOfWork):
     def __init__(self, session_factory: ...):
@@ -40,3 +44,6 @@ class SqliteUnitOfWork(UnitOfWork):
 
     def rollback(self):
         self.session.rollback()
+
+    def refresh(self, entity):
+        self.session.refresh(entity)

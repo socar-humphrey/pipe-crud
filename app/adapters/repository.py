@@ -35,12 +35,10 @@ class SqliteRepository(Repository):
 
 class SqliteUserRepository(SqliteRepository):
     def _get(self, id: str) -> User:
-        return self.session.query(User).filter_by(id=id)
+        return self.session.query(User).filter_by(id=id).first()
 
     def _add(self, entity: User) -> User:
-        self.session.add(entity=entity)
-        self.session.refresh(entity)
-        self.session.commit()
+        self.session.add(entity)
         return entity
 
 

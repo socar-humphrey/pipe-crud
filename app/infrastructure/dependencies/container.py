@@ -14,8 +14,7 @@ class ApplicationEnvironment(str, Enum):
 
 
 class DatabaseConfig(BaseSettings):
-    uri: str = Field(default="sqlite:///./pipe.db", env="db_uri")
-
+    uri: str = Field(default="sqlite:///", env="db_uri")
 
 
 class ApplicationConfig(BaseSettings):
@@ -27,7 +26,13 @@ class ApplicationConfig(BaseSettings):
 
 class ApplicationBaseContainer(DeclarativeContainer):
     config = providers.Configuration()
-    engine = providers.Singleton(sqlalchemy.create_engine, config.db.uri, echo=True)
+    engine = providers.Singleton(
+        sqlalchemy.create_engine,
+        config.db.uri,
+        echo=True,
+        connect_args={"check_same_thread": False},
+        poolclass=sqlalchemy.pool.StaticPool,
+    )
     session = providers.Singleton(
         sqlalchemy.orm.sessionmaker, autocommit=False, autoflush=False, bind=engine
     )
